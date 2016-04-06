@@ -9,12 +9,12 @@ body{
   height: 8em;
 }
 
-.templates{
-  float: left;
-  width: 20%;
+.templates, .templates .about{
+  width: 50%;
   height: 20%;
   margin: 5%;
   padding: 5%;
+  text-align: left;
   border-width: 7px;
   border-color: black;
 }
