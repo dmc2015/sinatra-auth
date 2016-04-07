@@ -6,6 +6,12 @@ require 'json'
 CLIENT_ID = ENV['GH_CLIENT_ID']
 CLIENT_SECRET = ENV['GH_CLIENT_SECRET']
 
+get '/revoke' do
+  erb :index, :locals => {:token => access_token}
+
+  RestClient::Request.execute(:method =>)
+end
+
 get '/' do
   erb :index, :locals => {:client_id => CLIENT_ID}
 end
@@ -27,15 +33,18 @@ get '/callback' do
 
   #take the token and scope from the result
   access_token = JSON.parse(result)['access_token']
-
-  #checks to see the level of scope that you have
+  #
+  # #checks to see the level of scope that you have
   scopes = JSON.parse(result)['scope'].split(',')
   has_user_email_scope = scopes.include? 'user:email'
 
-end
+  auth_result = JSON.parse(RestClient.get('https://api.github.com/user', {:params => {:access_token => access_token}}))
 
+  if has_user_email_scope
+    auth_result['private_emails'] = JSON.parse(RestClient.get('https://api.github.com/user/emails', {:params => {:access_token => access_token}}))
+  end
 
-get '/revoke' do
-  erb: index, :locals => {:client_id => CLIENT_ID}
+  erb :basic, :locals => auth_result
+
 
 end
