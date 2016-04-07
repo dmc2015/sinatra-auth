@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'rest-client'
 require 'json'
+require 'pry'
 
 
 CLIENT_ID = ENV['GH_CLIENT_ID']
@@ -9,7 +10,8 @@ CLIENT_SECRET = ENV['GH_CLIENT_SECRET']
 get '/revoke' do
   erb :index, :locals => {:token => access_token}
 
-  RestClient::Request.execute(:method =>)
+  # RestClient::Request.execute(:method =>)
+  #i found a way to make a revoke request between the rest-client docs and the rfc documentation
 end
 
 get '/' do
@@ -17,7 +19,10 @@ get '/' do
 end
 
 
+
+
 get '/callback' do
+
   #temp github code
   session_code = request.env['rack.request.quest_hash']['code']
 
